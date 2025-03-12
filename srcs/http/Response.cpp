@@ -72,9 +72,9 @@ void	Response::formResponse(const HttpRequest& request, const Webserv& webserv)
 
 	std::string full_path = findFullPath(request.path);
 
-	// if (full_path.empty() || !std::filesystem::exists(full_path)) {
-	// 	formError(404, webserv);
-	// }
+	if (full_path.empty() || !std::filesystem::exists(full_path)) {
+		formError(404, webserv);
+	}
 	if (1 == 1) {
 		if (request.path.find("cgi-bin") != std::string::npos){
 			handleCGI(request, webserv);
@@ -133,7 +133,6 @@ void	Response::handleCGI(const HttpRequest &request, const Webserv &webserv)
 		CgiHandler handler(request, webserv, "/Users/ashirzad/Desktop/webserv/website/cgi-bin/upload.py");
 
 		this->body = handler.executeCgi();
-		std::cout << body << std::endl;
 		addHeader("Content-Type", "text/plain");
 		addHeader("Content-Length", std::to_string(body.size()));
 	}

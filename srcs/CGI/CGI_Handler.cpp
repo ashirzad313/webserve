@@ -4,7 +4,7 @@ CgiHandler::CgiHandler(const HttpRequest &request, const Webserv &webserv, std::
 {
 	(void)webserv;
     this->_env["REQUEST_METHOD"] = request.method;
-    this->_env["CONTENT_TYPE"] = "multipart/form-data; boundary=----WebKitFormBoundaryXGGyjvJT1jdTzfrr";
+    this->_env["CONTENT_TYPE"] = request.headers.find("Content-Type")->second;
     this->_env["CONTENT_LENGTH"] = request.headers.find("Content-Length")->second;
 	this->_env["QUERY_STRING"] = getQueryString(request.path);
 
@@ -64,7 +64,6 @@ std::string CgiHandler::executeCgi()
 	pid_t pid = fork();
 	if (pid == 0)
 	{
-		std::cout << _body << std::endl;
 		close(stdoutPipe[0]);
 		dup2(stdoutPipe[1], STDOUT_FILENO);
 		close(stdoutPipe[1]);

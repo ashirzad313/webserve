@@ -1,4 +1,4 @@
-#!/Users/ashirzad/homebrew/bin/python3
+#!/Users/ashirzad/homebrew/bin/python3.10
 
 import os
 import urllib.parse
